@@ -133,7 +133,7 @@ def sorted_boxes(dt_boxes):
 
 def get_nearest_left_box(tbox, tidx, boxes, txts, debug=False):
     left_thres = 15  # TODO should tune
-    above_below_thres = 15  # TODO should tune
+    above_below_thres = 0  # TODO should tune
     nearest_idx = -1
     min_dis = -1
     tbox_height = math.sqrt((tbox[0][0] - tbox[3][0])**2 + (tbox[0][1] - tbox[3][1])**2)
@@ -160,7 +160,7 @@ def get_nearest_left_box(tbox, tidx, boxes, txts, debug=False):
 
 def get_nearest_right_box(tbox, tidx, boxes, txts, debug=False):
     right_thres = 15  # TODO should tune
-    above_below_thres = 15  # TODO should tune
+    above_below_thres = 0  # TODO should tune
     nearest_idx = -1
     min_dis = -1
     tbox_height = math.sqrt((tbox[0][0] - tbox[3][0])**2 + (tbox[0][1] - tbox[3][1])**2)
@@ -300,12 +300,12 @@ def main(args):
         img, flag = check_and_read_gif(image_file)
         if not flag:
             img = cv2.imread(image_file)
-            # TODO simple rotate method, should change
-            h, w = img.shape[:2]
-            center = (w // 2, h // 2)
-            if w > h:
-                M_2 = cv2.getRotationMatrix2D(center, -90, 1)
-                img = cv2.warpAffine(img, M_2, (w, h))
+            # # TODO simple rotate method, should change
+            # h, w = img.shape[:2]
+            # center = (w // 2, h // 2)
+            # if w > h:
+            #     M_2 = cv2.getRotationMatrix2D(center, -90, 1)
+            #     img = cv2.warpAffine(img, M_2, (w, h))
         if img is None:
             logger.info("error in loading image:{}".format(image_file))
             continue
