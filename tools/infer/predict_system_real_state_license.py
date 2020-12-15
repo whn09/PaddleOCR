@@ -184,23 +184,6 @@ def get_nearest_right_box(tbox, tidx, boxes, txts, debug=False):
             nearest_idx = idx
     return nearest_idx
 
-'''
-{
-    "code":0,
-    "data":{
-        "address":"顺义区义宾北区3号楼5层一单元502",
-        "area":"44.07",
-        "certNo":"京2016顺义区不动产权第0049052号",
-        "houseProperty":"商品房",
-        "id":8,
-        "ownerName":"范国亮周仁华",
-        "period":"59g",
-        "queryRecordId":-1,
-        "realEstateNo":"110113",
-        "totalFloor":"6"
-    }
-}
-'''
 def parse_real_estate_license(image, boxes, txts, scores=None, drop_score=0.5, font_path="./doc/simfang.ttf"):
     result = {'code': 0}
     h, w = image.height, image.width
