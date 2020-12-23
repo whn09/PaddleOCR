@@ -37,6 +37,8 @@ from tools.infer.utility import draw_ocr_box_txt
 
 import re
 import json
+import preprocess
+import line_fitter
 
 
 class TextSystem(object):
@@ -184,7 +186,7 @@ def get_nearest_right_box(tbox, tidx, boxes, txts, debug=False):
             nearest_idx = idx
     return nearest_idx
 
-def parse_real_estate_license(image, boxes, txts, scores=None, drop_score=0.5, font_path="./doc/simfang.ttf"):
+def parse_real_estate_license(image, boxes, txts, scores=None, drop_score=0.5, font_path="./doc/simfang.ttf", cells=None):
     result = {'code': 0}
     h, w = image.height, image.width
     ownerName = ''
@@ -195,6 +197,8 @@ def parse_real_estate_license(image, boxes, txts, scores=None, drop_score=0.5, f
     period = ''
     totalFloor = 0
     certNo = ''
+    if cells is not None:
+        print('cells:', cells)
     for idx, (box, txt) in enumerate(zip(boxes, txts)):
         if scores is not None and scores[idx] < drop_score:
             continue
@@ -318,13 +322,18 @@ def main(args):
                 scores,
                 drop_score=drop_score,
                 font_path=font_path)
+            
+            line_fitter.corner_detector(image_file, save_imgs=True)
+            line_fitter.fit_line(image_file)
+            cells = preprocess.recognize_tables(image_file)
             json_result = parse_real_estate_license(
                 image,
                 boxes,
                 txts,
                 scores,
                 drop_score=drop_score,
-                font_path=font_path)
+                font_path=font_path,
+                cells=cells)
             print('json_result:', json_result)
             draw_img_save = "./inference_results/"
             if not os.path.exists(draw_img_save):
