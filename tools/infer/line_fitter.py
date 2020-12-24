@@ -59,3 +59,7 @@ def fit_line(fname):
 
     cv2.line(img, (0, line_y), (img.shape[1], line_y), (0, 0, 255))
     cv2.imwrite(fname[:-4]+"_result3.jpg", img)
+
+if __name__ == '__main__':
+    corner_detector('mmexport1607322541739.pic_hd.jpg', save_imgs=True)
+    fit_line('mmexport1607322541739.pic_hd.jpg')
